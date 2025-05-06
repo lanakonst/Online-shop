@@ -1,0 +1,8 @@
+<div #mainContainer fxLayout="row inline" fxLayoutAlign="center stretch" fxLayoutGap="10px" *ngIf="currentProduct">
+    <img src="{{currentProduct.image}}" alt="">
+    <div #prodInfo fxLayout="column">
+        <h1>{{currentProduct.name}}</h1>
+        <p>{{currentProduct.description}}</p>
+        <div #rating fxLayoutAlign="start end">Rating: {{currentProduct.raiting}} / 5</div>
+    </div>
+</div>

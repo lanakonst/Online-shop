@@ -1,0 +1,25 @@
+mat-sidenav-container,
+mat-sidenav-content,
+mat-sidenav {
+    height: 100%;
+}
+
+mat-sidenav {
+    width: 10rem;
+}
+
+#logo {
+    background-image: url('/logo.png');
+    background-size: cover;
+}
+
+a {
+    color:rgb(67, 251, 64);
+    text-decoration: none;
+}
+
+a:hover, a:active {
+    color:rgb(70, 163, 138);
+}
+
+

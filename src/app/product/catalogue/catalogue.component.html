@@ -1,0 +1,19 @@
+<div fxLayoutAlign="center center">
+    <mat-form-field fxFlex="30%" fxLayoutGap="10px">
+        <input matInput type="text" (keyup)="doFilter($any($event.target).value)"> <!--listen to anything and control its value-->
+    </mat-form-field>
+    </div>
+
+ 
+<ng-container *ngIf="products">
+    <mat-grid-list  cols="{{columns}}" rowHeight="1:1" [gutterSize]="'10'">
+    <mat-grid-tile *ngFor="let product of products">
+        <div fxLayout="center center" [routerLink]="['/catalogue', product.id]">
+            <mat-card appearance="outlined">
+                <mat-card-header>{{product.name}}</mat-card-header>
+                <img src="{{product.image}}" alt="{{product.name}}" mat-card-lg-image>
+            </mat-card>
+        </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</ng-container>

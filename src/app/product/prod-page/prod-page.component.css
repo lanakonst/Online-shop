@@ -1,0 +1,23 @@
+img {
+    width: 40%;
+}
+
+#mainContainer {
+    background-color: rgb(214, 237, 100);
+    width: 100%;
+    margin: 20px 20px 10% 10%;
+}
+#prodInfo {
+    background-color: blanchedalmond;
+}
+.rating{
+    background-color: blueviolet;
+}
+
+h1 {
+    background-color: azure;
+}
+
+p {
+    background-color: beige;
+}
