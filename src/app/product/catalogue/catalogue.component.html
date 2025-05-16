@@ -2,8 +2,59 @@
     <mat-form-field fxFlex="30%" fxLayoutGap="10px">
         <input matInput type="text" (keyup)="doFilter($any($event.target).value)"> <!--listen to anything and control its value-->
     </mat-form-field>
+</div>
+
+<table mat-table [dataSource]="productSource" matSort>
+    <ng-container matColumnDef="image">
+        <mat-header-cell *matHeaderCellDef>image</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <img src="{{element.image}}" alt="{{element.name}}" mat-card-lg-image>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>type</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.type}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>price</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.price | number}} $</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="rating">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="">rating</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.rating | number}} / 5</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="delivery">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="">Delivery time</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.delivery | number}} days</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+    <mat-row *matRowDef="let rows; columns: displayColumns" (click)="goToProduct(rows.id)"></mat-row>
+</table>
+
+<mat-paginator [pageSize]="4" [pageSizeOptions]="[4, 6, 8, 10, 50]"></mat-paginator>
+
+<!-- 
+ <div fxLayoutAlign="center center">
+    <mat-form-field fxFlex="30%" fxLayoutGap="10px">
+        <input matInput type="text" (keyup)="doFilter($any($event.target).value)"> 
+    </mat-form-field>
     </div>
 
+<div id="filters">
+    <mat-form-field>
+        
+    </mat-form-field>
+</div>
  
 <ng-container *ngIf="products">
     <mat-grid-list  cols="{{columns}}" rowHeight="1:1" [gutterSize]="'10'">
@@ -17,3 +68,4 @@
     </mat-grid-tile>
   </mat-grid-list>
 </ng-container>
+ -->

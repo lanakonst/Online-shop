@@ -1,3 +1,14 @@
-mat-card:hover {
-    filter: brightness(70%);
+mat-cell {
+    height: 150px;
+    padding: 10px;
+}
+
+img {
+    max-height: 100%;
+    max-width: 150px;
+    width: auto;
+    height: auto;
+    
+    object-fit: contain;
+    border-radius: 10px;
 }

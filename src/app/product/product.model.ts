@@ -9,7 +9,8 @@ export interface Product {
     description: string,
     price: number,
     quantity: number,
-    raiting: number,
+    rating: number,
     image: string,
     type: ProductTypes,
+    delivery: number,
 }

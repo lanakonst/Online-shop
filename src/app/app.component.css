@@ -10,7 +10,9 @@ mat-sidenav {
 
 #logo {
     background-image: url('/logo.png');
-    background-size: cover;
+    background-size:contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 a {
