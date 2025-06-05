@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from './auth/user.service';
+import { UserService } from './services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileComponent } from './auth/profile/profile.component';
 

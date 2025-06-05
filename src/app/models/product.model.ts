@@ -8,9 +8,9 @@ export interface Product {
     name: string,
     description: string,
     price: number,
-    quantity: number,
+    quantity: number, //available
     rating: number,
     image: string,
     type: ProductTypes,
-    delivery: number,
+    deliveryTime: number,
 }

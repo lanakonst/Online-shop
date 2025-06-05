@@ -1,7 +1,7 @@
-import { Product, ProductTypes } from "./product.model";
-
+import { Product, ProductTypes } from "../models/product.model";
 export class ProductService {
-    private products : Product[] = [{id: '1',
+    private products : Product[] = [
+      {  id: '1',
         name: 'golden',
         description: 'smth',
         price: 120,
@@ -9,7 +9,7 @@ export class ProductService {
         rating: 5,
         image: '/cauldrons/golden_cauldron.jpeg',
         type: ProductTypes.Cauldron,
-        delivery: 3 },
+        deliveryTime: 3 },
         {id: '2',
           name: 'silver',
           description: 'smth',
@@ -18,7 +18,7 @@ export class ProductService {
           rating: 3,
           image: '/cauldrons/silver_cauldron.jpeg',
           type: ProductTypes.Cauldron,
-          delivery: 2,
+          deliveryTime: 2,
          },
           {id: '3',
             name: 'bronze',
@@ -28,7 +28,7 @@ export class ProductService {
             rating: 4.8,
             image: 'path',
             type: ProductTypes.Cauldron,
-            delivery: 22,
+            deliveryTime: 22,
           },
             {id: '4',
               name: 'wow',
@@ -38,7 +38,7 @@ export class ProductService {
               rating: 2.5,
               image: 'path',
               type: ProductTypes.Cauldron,
-            delivery: 10,
+            deliveryTime: 10,
           },
       ];
 

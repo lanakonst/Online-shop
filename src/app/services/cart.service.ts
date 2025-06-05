@@ -1,0 +1,80 @@
+import { Cart } from "../models/cart.model";
+import { Order } from "../models/order.model";
+import { Product } from "../models/product.model";
+import { OrderItem } from "../models/orderItem.model";
+import { UserService } from "./user.service";
+
+export class CartService {
+    private cart : Cart = {
+            products: [],
+            timeCreated: new Date(),
+            totalPrice: 0,
+        }
+
+        constructor(private userService: UserService) {}
+        addItem(product: Product, amount : number) {
+            if (amount > product.quantity) {
+                console.log('Not enough')
+                return
+            }
+            var itemInCart = this.cart.products.find((item) => item.product.id == product.id) 
+            if (itemInCart) {
+                if (itemInCart.amount > product.quantity) {
+                    console.log('not enough')
+                    return
+                }
+                itemInCart.amount += amount
+            } else {
+                var newItem : OrderItem = {product, amount}
+                this.cart.products.push(newItem)
+            }
+            
+            this.cart.totalPrice += product.price * amount
+        }
+
+        removeItem(productId : string) {
+            var itemIndex = this.cart.products.findIndex((item) => item.product.id == productId)
+            if (itemIndex === -1) {
+                console.log('No such item')
+                return
+            }
+            var itemToRemove = this.cart.products[itemIndex]
+            this.cart.totalPrice -= itemToRemove.product.price
+            if (itemToRemove.amount > 1) {
+                itemToRemove.amount -= 1
+            } else {
+                this.cart.products.splice(itemIndex, 1)
+            }
+        }
+
+        clearCart() {
+            this.cart = {
+                products: [],
+                timeCreated: new Date(),
+                totalPrice: 0,
+            }
+        }
+
+        cartToOrder() : Order {
+            if (this.cart.products.length === 0) {
+                throw new Error("Cart is empty. Cannot place order")
+            }
+            var maxDeliveryTime = Math.max(...this.cart.products.map((item) => item.product.deliveryTime))
+            var deliveryDate = new Date()
+            deliveryDate.setDate(deliveryDate.getDate() + maxDeliveryTime)
+            const newOrder : Order = {
+                id: Date.now(),
+                products: this.cart.products,
+                totalPrice: this.cart.totalPrice,
+                status: 'ongoing',
+                dateCreated: new Date(),
+                deliveryDate,
+
+            }
+
+            this.userService.currentUser.orders.push(newOrder)
+            this.clearCart()
+            return newOrder
+        }
+        //check time limit
+}

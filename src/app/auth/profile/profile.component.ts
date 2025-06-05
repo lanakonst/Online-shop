@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { User, UserService } from '../user.service';
+import { User, UserService } from '../../services/user.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -21,7 +21,6 @@ export class ProfileComponent implements OnInit{
           name: this.data.user.name,
           surname: this.data.user.surname,
           email: this.data.user.email,
-          login: this.data.user.password,
           password: this.data.user.password,
           address: this.data.user.address,
         };
