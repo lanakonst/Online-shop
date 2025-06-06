@@ -3,6 +3,7 @@ import { Order } from "../models/order.model";
 import { Product } from "../models/product.model";
 import { OrderItem } from "../models/orderItem.model";
 import { UserService } from "./user.service";
+import { OrderService } from "./order.service";
 
 export class CartService {
     private cart : Cart = {
@@ -11,7 +12,8 @@ export class CartService {
             totalPrice: 0,
         }
 
-        constructor(private userService: UserService) {}
+        constructor(private userService: UserService, private orderService : OrderService) {}
+
         addItem(product: Product, amount : number) {
             if (amount > product.quantity) {
                 console.log('Not enough')
@@ -59,20 +61,7 @@ export class CartService {
             if (this.cart.products.length === 0) {
                 throw new Error("Cart is empty. Cannot place order")
             }
-            var maxDeliveryTime = Math.max(...this.cart.products.map((item) => item.product.deliveryTime))
-            var deliveryDate = new Date()
-            deliveryDate.setDate(deliveryDate.getDate() + maxDeliveryTime)
-            const newOrder : Order = {
-                id: Date.now(),
-                products: this.cart.products,
-                totalPrice: this.cart.totalPrice,
-                status: 'ongoing',
-                dateCreated: new Date(),
-                deliveryDate,
-
-            }
-
-            this.userService.currentUser.orders.push(newOrder)
+            const newOrder = this.orderService.orderFromCart(this.cart)
             this.clearCart()
             return newOrder
         }

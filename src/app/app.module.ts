@@ -15,6 +15,7 @@ import { UserService } from './services/user.service';
 import { ProfileComponent } from './auth/profile/profile.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { OrderService } from './services/order.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { SignupComponent } from './auth/signup/signup.component';
     FlexLayoutModule,
     FormsModule,
   ],
-  providers: [ProductService, UserService],
+  providers: [ProductService, UserService, OrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
