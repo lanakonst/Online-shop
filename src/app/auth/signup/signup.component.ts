@@ -23,6 +23,7 @@ export class SignupComponent {
       var newUser = this.userService.registerUser(form.value.fullName, form.value.email, form.value.phone,
         form.value.address, form.value.login, form.value.password)
       console.log('registered')
+      console.log(newUser)
       this.router.navigate(['']);
     } else {
       this.errorExists = true;

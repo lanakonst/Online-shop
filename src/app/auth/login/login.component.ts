@@ -19,10 +19,12 @@ export class LoginComponent {
     var login = form.value.login
     var password = form.value.password
     var user = this.userService.getUserByLogin(login)
+    console.log('loginnn', login, password, user.password, user)
     if (!user) {
       this.errorExists = true
       this.errorText = 'No such user found'
-    } else if (!user.password == password) {
+    } else if (user.password != password) {
+      console.log('WRONG password')
       this.errorExists = true
       this.errorText = 'Incorrect password'
     } else {
