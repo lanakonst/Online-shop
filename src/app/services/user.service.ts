@@ -43,10 +43,6 @@ export class UserService{
         login:string, password: string): User {
         var maxId: number = Math.max(...UserService.dummyUserList.map(user=>user.id), 0)
 
-        /*UserService.dummyUserList.forEach(user => {
-            if(maxId < user.id) maxId = user.id;
-        })*/
-
         var id = ++maxId;
         var orders: Order[] = []
         var user : User = {id, fullName, email, phone, address, login, password, orders};

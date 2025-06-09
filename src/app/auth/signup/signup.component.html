@@ -1,9 +1,30 @@
 <section>
     <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1rem" #f="ngForm" (ngSubmit)="onSubmit(f)">
         <mat-form-field>
+            <input type="text" matInput placeholder="Your full name" ngModel name="fullName" required #fullNameInput="ngModel">
+            <mat-error *ngIf="fullNameInput.hasError('required')">Field shouldn't be empty</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
             <input type="email" matInput placeholder="Your email" ngModel name="email" required #emailInput="ngModel">
             <mat-error *ngIf="emailInput.hasError('required')">Field shouldn't be empty</mat-error>
             <mat-error *ngIf="!emailInput.hasError('required')">Use correct email format</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input type="tel" matInput placeholder="Your phone number" ngModel name="phone" required #phoneInput="ngModel">
+            <mat-error *ngIf="phoneInput.hasError('required')">Field shouldn't be empty</mat-error>
+            <mat-error *ngIf="!phoneInput.hasError('required')">Use correct phone number format</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input type="text" matInput placeholder="Your address" ngModel name="address" required #addressInput="ngModel">
+            <mat-error *ngIf="addressInput.hasError('required')">Field shouldn't be empty</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input type="text" matInput placeholder="Your login" ngModel name="login" required #loginInput="ngModel">
+            <mat-error *ngIf="loginInput.hasError('required')">Field shouldn't be empty</mat-error>
         </mat-form-field>
 
         <mat-form-field hintLabel="Please enter minimum 8 characters">

@@ -41,7 +41,7 @@
       <a routerLink="/login">Login</a>
       <a routerLink="/catalogue">Catalogue</a>
       <button *ngIf="userService.currentUser" mat-raised-button color="warn"
-      (click)="openProfile(userService.currentUser.id)">{{userService.currentUser.email}}</button>
+      (click)="openProfile(userService.currentUser.id)">{{userService.currentUser.login}}</button>
     </div>
     
   </mat-toolbar>

@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { User, UserService } from '../../services/user.service';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user.model';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -15,18 +16,17 @@ export class ProfileComponent implements OnInit{
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public userService: UserService) {}
   ngOnInit(): void {
-      if(this.data && this.data.user) {
+      /*if(this.data && this.data.user) {
         this.profileForInput = {
           id: this.data.user.id,
-          name: this.data.user.name,
-          surname: this.data.user.surname,
+          fullName: this.data.user.fullName,
           email: this.data.user.email,
           password: this.data.user.password,
           address: this.data.user.address,
         };
       } else {
         console.error('Invalid user data: ', this.data);
-      }
+      }*/
   }
   enableEdit(){
     this.isEditing = !this.isEditing;
@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit{
     this.data.user.password= this.profileForInput.password;
     this.data.user.address = this.profileForInput.address;
     console.log(this.data.user);
-    console.log(UserService.dummyUserList);
+    //console.log(UserService.dummyUserList);
     this.isEditing = false;
   }
 }

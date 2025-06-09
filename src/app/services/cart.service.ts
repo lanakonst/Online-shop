@@ -4,7 +4,9 @@ import { Product } from "../models/product.model";
 import { OrderItem } from "../models/orderItem.model";
 import { UserService } from "./user.service";
 import { OrderService } from "./order.service";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class CartService {
     private cart : Cart = {
             products: [],
