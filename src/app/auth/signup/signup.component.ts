@@ -16,8 +16,8 @@ export class SignupComponent {
 
   constructor(private userService: UserService, private router : Router){}
   onSubmit(form: NgForm) {
-    console.log('signup comp ' + this.userService.getUser(form.value.email))
-    if(!this.userService.getUser(form.value.email)) {
+    console.log('signup comp ' + this.userService.getUserByEmail(form.value.email))
+    if(!this.userService.getUserByEmail(form.value.email)) {
       this.errorExists = false;
       console.log(form.value.password)
       var newUser = this.userService.registerUser(form.value.fullName, form.value.email, form.value.phone,

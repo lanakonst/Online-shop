@@ -30,12 +30,17 @@ export class UserService{
         return foundUser;
     }
 
-    getUser(userEmail : string) : User{
+    getUserByEmail(userEmail : string) : User{
         this.currentUser = UserService.dummyUserList.find(userToFind => userToFind.email == userEmail)!;
         return this.currentUser;
     }
 
-    isPasswordCorrect(userEmail : string, password : string) : boolean {
+    getUserByLogin(login : string) : User {
+        var foundUser = UserService.dummyUserList.find(user => user.login == login)!
+        return foundUser
+    }
+
+    checkPassword(userEmail : string, password : string) : boolean {
         return UserService.dummyUserList.find(userToFind => (userToFind.email == userEmail && userToFind.password == password)) != undefined;
     }
 
@@ -52,6 +57,10 @@ export class UserService{
         this.currentUser = user;
         console.log(user);
         return user;
+    }
+
+    setCurrentUser(user : User) {
+        this.currentUser = user
     }
 
     toGuestUser() {
