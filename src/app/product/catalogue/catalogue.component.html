@@ -1,8 +1,54 @@
 <div fxLayoutAlign="center center">
     <mat-form-field fxFlex="30%" fxLayoutGap="10px">
-        <input matInput type="text" (keyup)="doFilter($any($event.target).value)"> <!--listen to anything and control its value-->
+        <input matInput type="text" (keyup)="applyFilters()" [(ngModel)]="filterValues.search"> 
     </mat-form-field>
 </div>
+
+<mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Filters</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div>
+        <mat-accordion>
+            <mat-expansion-panel (opened)="categoryOpenState.set(true)" (closed)="categoryOpenState.set(false)">
+              <mat-expansion-panel-header>
+                <mat-panel-title>Categories</mat-panel-title>
+              </mat-expansion-panel-header>
+                <mat-checkbox [checked]="allChecked">All</mat-checkbox>
+                <mat-checkbox  *ngFor="let type of prodTypes" (change)="onTypesChange($event.checked, type)">{{type}}s</mat-checkbox>
+            </mat-expansion-panel>
+          </mat-accordion>
+      </div>
+
+      <div>
+        <p>Price</p>
+        <mat-slider min="{{minPrice}}" max="{{maxPrice}}" discrete>
+            <input value="{{minPrice}}" matSliderStartThumb [(ngModel)]="filterValues.priceRange![0]">
+            <input value="{{maxPrice}}" matSliderEndThumb [(ngModel)]="filterValues.priceRange![1]">
+          </mat-slider>
+      </div>
+
+      <div>
+        <p>Delivery time in days</p>
+        <mat-slider min="{{minDeliveryTime}}" max="{{maxDeliveryTime}}" discrete>
+            <input value="{{maxDeliveryTime}}" matSliderThumb [(ngModel)]="filterValues.deliveryTime">
+          </mat-slider>
+      </div>
+
+      <div>
+        <p>Quantity</p>
+        <mat-slider min="0" max="{{maxQuantity}}" discrete>
+            <input matSliderThumb [(ngModel)]="filterValues.quantity">
+          </mat-slider>
+      </div>
+
+      <button mat-raised-button color="primary" (click)="applyFilters()">Apply</button>
+      <button mat-raised-button color="primary" (click)="initFilters()">Reset</button>
+    </mat-expansion-panel>
+  </mat-accordion>
+  
 
 <table mat-table [dataSource]="productSource" matSort>
     <ng-container matColumnDef="image">
@@ -42,30 +88,3 @@
 </table>
 
 <mat-paginator [pageSize]="4" [pageSizeOptions]="[4, 6, 8, 10, 50]"></mat-paginator>
-
-<!-- 
- <div fxLayoutAlign="center center">
-    <mat-form-field fxFlex="30%" fxLayoutGap="10px">
-        <input matInput type="text" (keyup)="doFilter($any($event.target).value)"> 
-    </mat-form-field>
-    </div>
-
-<div id="filters">
-    <mat-form-field>
-        
-    </mat-form-field>
-</div>
- 
-<ng-container *ngIf="products">
-    <mat-grid-list  cols="{{columns}}" rowHeight="1:1" [gutterSize]="'10'">
-    <mat-grid-tile *ngFor="let product of products">
-        <div fxLayout="center center" [routerLink]="['/catalogue', product.id]">
-            <mat-card appearance="outlined">
-                <mat-card-header>{{product.name}}</mat-card-header>
-                <img src="{{product.image}}" alt="{{product.name}}" mat-card-lg-image>
-            </mat-card>
-        </div>
-    </mat-grid-tile>
-  </mat-grid-list>
-</ng-container>
- -->

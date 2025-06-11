@@ -1,10 +1,19 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, signal, ViewChild } from '@angular/core';
 import { Product, ProductTypes } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort'
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+
+
+interface ProductFilter {
+  search?: string,
+  types?: Set<ProductTypes>,
+  priceRange?: number[],
+  deliveryTime?: number,
+  quantity?: number,
+}
 
 @Component({
   selector: 'app-catalogue',
@@ -13,7 +22,19 @@ import { Router } from '@angular/router';
   styleUrl: './catalogue.component.css'
 })
 
-export class CatalogueComponent implements OnInit, OnInit{
+export class CatalogueComponent implements OnInit{
+  readonly panelOpenState = signal(false)
+  readonly categoryOpenState = signal(false)
+  
+  allChecked = true
+
+  prodTypes = Object.values(ProductTypes)
+  filterValues : ProductFilter = {}
+  maxPrice! : number
+  minPrice!: number
+  minDeliveryTime!: number
+  maxDeliveryTime = 60
+  maxQuantity = 10
 
   productSource = new MatTableDataSource<Product>()
   displayColumns = ["image", "name", "type", "price", "rating", "delivery"];
@@ -24,46 +45,60 @@ export class CatalogueComponent implements OnInit, OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
 
+
   ngOnInit(): void{
-    this.productSource.data = this.productService.getProducts();
+    this.productSource.data = this.productService.getProducts()
+    this.maxPrice = this.productService.getMaxPrice()
+    this.minPrice = this.productService.getMinPrice()
+    this.minDeliveryTime = this.productService.getMinDeliveryTime()
+    
+    this.initFilters()
+    this.productSource.filterPredicate = this.createFilter.bind(this)
   };
+
+  initFilters() {
+    this.filterValues.search = ''
+    this.filterValues.types = new Set()
+    this.allChecked = true
+    this.filterValues.priceRange = [this.minPrice, this.maxPrice]
+    this.filterValues.deliveryTime = this.maxDeliveryTime
+    this.filterValues.quantity = 0
+    this.applyFilters()
+  }
+
+  createFilter(data : Product, filter: string) : boolean {
+    this.filterValues.search = this.filterValues.search?.toLowerCase()
+    if (this.filterValues.search && this.filterValues.search!.length > 0){
+      return data.name.toLowerCase().includes(this.filterValues.search!) || data.type.toLowerCase().includes(this.filterValues.search!)
+    }
+    
+    const typeCheck = this.allChecked ? true : !this.filterValues.types || this.filterValues.types.has(data.type)
+    const priceCheck = data.price >= this.filterValues.priceRange![0] && data.price <= this.filterValues.priceRange![1]
+    const deliveryCheck = data.deliveryTime <= this.filterValues.deliveryTime!
+    const quantityCheck = data.quantity >= this.filterValues.quantity!
+
+    return typeCheck && priceCheck && deliveryCheck && quantityCheck
+  }
+
+  onTypesChange(checked : boolean, type : ProductTypes) {
+    if(checked) {
+      this.filterValues.types?.add(type)
+    } else {
+      this.filterValues.types?.delete(type)
+    }
+    this.allChecked = this.filterValues.types?.size == 0
+  }
+
+  applyFilters() {
+    this.productSource.filter ='trigger'
+  }
 
   ngAfterViewInit(): void {
     this.productSource.sort = this.sort;
     this.productSource.paginator = this.paginator;
-}
-
-doFilter(filterVal : string) {
-  this.productSource.filter = filterVal.trim().toLowerCase();
-}
-
-goToProduct(id:  number) {
-  this.router.navigate(['/catalogue', id]);
-}
-  
-  /*columns:number = 4;
-  products! : Product[];
-  selectedType = 'none';
-  
-  constructor(private productService : ProductService) {}
-
-  ngOnInit(): void {
-      this.products = this.productService.getProducts();
   }
 
-  doFilter(filterVal : string) {
+  goToProduct(id:  number) {
+    this.router.navigate(['/catalogue', id]);
   }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    const width = window.innerWidth;
-
-    if(width < 600) {
-      this.columns = 1;
-    } else if (width > 1000) {
-      this.columns = 5;
-    } else {
-      this.columns = Math.round(width / 300);
-    }
-  }*/
 }

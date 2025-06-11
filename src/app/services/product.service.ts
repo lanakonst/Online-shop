@@ -46,4 +46,8 @@ export class ProductService {
 
     getProducts() : Product[] { return this.products;};
     getProductById(id:string):Product { return  this.products.find((product)=> product.id==id)!;};
+
+    getMaxPrice() : number { return Math.max(...this.products.map(product => product.price))}
+    getMinPrice() : number { return Math.min(...this.products.map(product => product.price))}
+    getMinDeliveryTime() : number { return Math.min(...this.products.map(product => product.deliveryTime))}
 }
