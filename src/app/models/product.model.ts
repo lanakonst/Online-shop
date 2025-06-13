@@ -3,6 +3,14 @@ export enum ProductTypes {
     Herb='herb',
 }
 
+export interface Review {
+    authorId: number,
+    authorName: string,
+    rating: number,
+    reviewText: string,
+    date: Date,
+}
+
 export interface Product {
     id: string,
     name: string,
@@ -13,4 +21,6 @@ export interface Product {
     image: string,
     type: ProductTypes,
     deliveryTime: number,
+
+    reviews: Review[],
 }

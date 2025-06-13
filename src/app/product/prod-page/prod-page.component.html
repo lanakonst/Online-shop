@@ -1,8 +1,32 @@
-<div #mainContainer fxLayout="row inline" fxLayoutAlign="center stretch" fxLayoutGap="10px" *ngIf="currentProduct">
+<div #mainContainer fxLayout="row inline" fxLayoutAlign="center stretch" fxLayoutGap="20px" *ngIf="currentProduct">
     <img src="{{currentProduct.image}}" alt="">
-    <div #prodInfo fxLayout="column">
+
+    <div #prodInfo fxLayout="column" fxLayoutGap="10px">
         <h1>{{currentProduct.name}}</h1>
         <p>{{currentProduct.description}}</p>
         <div #rating fxLayoutAlign="start end">Rating: {{currentProduct.rating}} / 5</div>
+        <mat-form-field>
+            <mat-label>Quantity</mat-label>
+            <mat-select [(value)]="amount" [(ngModel)]="amount">
+                <mat-option *ngFor="let i of getRange()" [value]="i">{{i}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+          
+        <button mat-raised-button color="primary" (click)="addToCart()">Add to cart</button>
     </div>
 </div>
+
+<div>
+    <div *ngIf="currentProduct.reviews.length != 0; else noReviews">
+        <div id="review" *ngFor="let review of currentProduct.reviews">
+            <h4>{{review.authorName}}</h4>
+            <p>{{review.date.toDateString().slice(3)}}</p>
+            <p>{{review.reviewText}}</p>
+            <p>{{review.rating}} / 5</p>
+        </div>
+        
+    </div>
+    <ng-template #noReviews><h2 id="review">No reviews yet</h2></ng-template>
+</div>
+
+

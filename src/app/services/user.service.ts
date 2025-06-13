@@ -67,4 +67,8 @@ export class UserService{
         this.currentUser = UserService.dummyUserList[0];
     }
 
+    checkGuest() : boolean {
+        return this.currentUser.id == 0
+    }
+
 }
