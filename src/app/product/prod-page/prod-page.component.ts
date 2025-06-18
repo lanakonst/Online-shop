@@ -4,8 +4,6 @@ import { ProductService } from '../../services/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { OrderItem } from '../../models/orderItem.model';
-import { Cart } from '../../models/cart.model';
 
 @Component({
   selector: 'app-prod-page',
@@ -48,8 +46,8 @@ export class ProdPageComponent implements OnInit {
         currentUser.cart.products[itemId].amount += this.amount
       }
       currentUser.cart.totalPrice += this.currentProduct.price * this.amount
-      console.log(currentUser.cart)
       this._snackBar.open('Item added!', 'Close', { duration: 3000 });
     }
+    console.log('REFERENCE CHEEEEEEEECK', this.currentProduct === this.productService.getProductById(this.currentProduct.id))
   }
 }

@@ -1,28 +1,21 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav opened="true">
     <mat-nav-list>
-      <a mat-list-item routerLink="/catalogue" [matMenuTriggerFor]="catalogue">
-        <mat-icon>view_list</mat-icon>
+      <a mat-list-item routerLink="/catalogue" (click)="sidenav.close()">
+        <mat-icon>dark_mode</mat-icon>
         catalogue
       </a>
-      <mat-menu #catalogue="matMenu">
-        <button mat-menu-item (click)="sidenav.close()">All items</button>
-        <button mat-menu-item (click)="sidenav.close()">Stones</button>
-        <button mat-menu-item (click)="sidenav.close()">Herbs</button>
-        <button mat-menu-item (click)="sidenav.close()">Creature products</button>
-        <button mat-menu-item (click)="sidenav.close()">Cauldrons</button>
-      </mat-menu>
       <a mat-list-item routerLink="/signup" (click)="sidenav.close()">
         <mat-icon>person</mat-icon>
         Signup
       </a>
       
       <a mat-list-item routerLink="/login" (click)="sidenav.close()">
-        <mat-icon>input</mat-icon>
+        <mat-icon>login</mat-icon>
         Login
       </a>
-      <a mat-list-item routerLink="/" (click)="sidenav.close(); openProfile(0)">
-        <mat-icon>home</mat-icon>
+      <a mat-list-item routerLink="/" (click)="sidenav.close(); userService.toGuestUser()">
+        <mat-icon>logout</mat-icon>
         Logout
       </a>
     </mat-nav-list>
@@ -40,8 +33,8 @@
       <a routerLink="/signup">Signup</a>
       <a routerLink="/login">Login</a>
       <a routerLink="/catalogue">Catalogue</a>
-      <button *ngIf="userService.currentUser" mat-raised-button color="warn"
-      (click)="openProfile(userService.currentUser.id)">{{userService.currentUser.login}}</button>
+      <button fxLayoutAlign="center center" mat-mini-fab routerLink="/cart" [disabled]="userService.checkGuest()"><mat-icon>shopping_cart</mat-icon></button>
+      <button fxLayoutAlign="center center" routerLink="/profile" mat-mini-fab [disabled]="userService.checkGuest()"><mat-icon>person</mat-icon></button>
     </div>
     
   </mat-toolbar>

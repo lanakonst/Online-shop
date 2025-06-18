@@ -1,0 +1,28 @@
+<mat-dialog-content>
+    <ng-container *ngFor="let order of data.products">
+        <div fxLayout="row" fxLayoutAlign="space-evenly">
+            <p>{{order.product.name}}</p>
+            <p>{{order.product.type}}</p>
+            <p>{{order.product.price}}</p>
+        <form fxLayoutGap="1rem" #f="ngForm" (ngSubmit)="onSubmit(f, order.product)" fxLayout="row">
+            <mat-form-field>
+                <mat-label>Rate</mat-label>
+            <mat-select [(ngModel)]="reviews[order.product.id].rating" [value]="reviews[order.product.id].rating" name="rating-{{ order.product.id }}" required>
+                <mat-option value="1">1</mat-option>
+                <mat-option value="2">2</mat-option>
+                <mat-option value="3">3</mat-option>
+                <mat-option value="4">4</mat-option>
+                <mat-option value="5">5</mat-option>
+            </mat-select>
+            </mat-form-field>
+            
+                <mat-form-field>
+                    <mat-label>Leave review</mat-label>
+                    <textarea matInput [(ngModel)]="reviews[order.product.id].review" name="review-{{ order.product.id }}"></textarea>
+                </mat-form-field>
+            <button type="submit" color="primary" mat-mini-fab *ngIf="!checkIfRated(order.product)"><mat-icon>send</mat-icon></button>
+            <mat-icon mat-mini-fab *ngIf="checkIfRated(order.product)">check</mat-icon>
+        </form>
+    </div>
+    </ng-container>
+</mat-dialog-content>

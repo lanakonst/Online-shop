@@ -5,6 +5,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { CatalogueComponent } from './product/catalogue/catalogue.component';
 import { ProdPageComponent } from './product/prod-page/prod-page.component';
+import { CartComponent } from './auth/cart/cart.component';
+import { ProfileComponent } from './auth/profile/profile.component';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
@@ -12,6 +14,8 @@ const routes: Routes = [
   { path: 'catalogue/:id', component: ProdPageComponent }, //dynamic route to every product
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
+  { path: 'cart', component: CartComponent },
+  { path: 'profile', component: ProfileComponent},
 ];
 
 @NgModule({

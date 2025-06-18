@@ -17,6 +17,9 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { OrderService } from './services/order.service';
 import { CartService } from './services/cart.service';
+import { CartComponent } from './auth/cart/cart.component';
+import { OrderHistoryComponent } from './auth/order-history/order-history.component';
+import { OrderPageComponent } from './auth/order-page/order-page.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,9 @@ import { CartService } from './services/cart.service';
     ProfileComponent,
     LoginComponent,
     SignupComponent,
+    CartComponent,
+    OrderHistoryComponent,
+    OrderPageComponent,
   ],
   imports: [
     BrowserModule,

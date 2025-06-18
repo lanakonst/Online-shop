@@ -1,0 +1,83 @@
+<table mat-table [dataSource]="orderSource" class="mat-elevation-z8" matSort>
+    <ng-container matColumnDef="prodList">
+        <mat-header-cell *matHeaderCellDef>Products</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{getProdList(element)}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dateCreated">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Date created</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.dateCreated | date}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="deliveryDate">
+        <mat-header-cell *matHeaderCellDef>Delivery date</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.deliveryDate | date}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef>Total price</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.totalPrice | number}} $</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.status}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <button mat-raised-button *ngIf="element.status == 'ongoing'" (click)="orderService.cancelOrder(element)">cancel</button>
+            <button mat-raised-button *ngIf="element.status == 'completed' && !element.rating" (click)="openRate(element)">rate</button>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+    <mat-row *matRowDef="let rows; columns: displayColumns"></mat-row>
+</table>
+
+<mat-paginator [pageSize]="4" [pageSizeOptions]="[4, 6, 8, 10, 50]"></mat-paginator>
+
+
+
+<!--
+
+<table mat-table [dataSource]="productSource" matSort>
+    <ng-container matColumnDef="image">
+        <mat-header-cell *matHeaderCellDef>image</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <img src="{{element.image}}" alt="{{element.name}}" mat-card-lg-image>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>type</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.type}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>price</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.price | number}} $</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="rating">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="">rating</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.rating | number}} / 5</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="delivery">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="">Delivery time</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.delivery | number}} days</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+    <mat-row *matRowDef="let rows; columns: displayColumns" (click)="goToProduct(rows.id)"></mat-row>
+</table>
+
+<mat-paginator [pageSize]="4" [pageSizeOptions]="[4, 6, 8, 10, 50]"></mat-paginator>
+-->

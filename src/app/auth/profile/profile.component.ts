@@ -1,7 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Form, NgForm } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { Order } from '../../models/order.model';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-profile',
@@ -10,35 +15,47 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit{
+  orderSource = new MatTableDataSource<Order>()
+  displayColumns = ["prodList", "dateCreated", "deliveryDate", "price", "status"];
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   isEditing: boolean = false;
-  profileForInput!: User;
+  currentUser!: User;
+  errorExists = false;
+  errorText = '';
+  newName = '';
+  newAddress = '';
+  newEmail = '';
+  newPhone = '';
+  
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public userService: UserService) {}
+  constructor(public userService: UserService, public orderService : OrderService) {}
+
+  
+
   ngOnInit(): void {
-      /*if(this.data && this.data.user) {
-        this.profileForInput = {
-          id: this.data.user.id,
-          fullName: this.data.user.fullName,
-          email: this.data.user.email,
-          password: this.data.user.password,
-          address: this.data.user.address,
-        };
-      } else {
-        console.error('Invalid user data: ', this.data);
-      }*/
-  }
-  enableEdit(){
-    this.isEditing = !this.isEditing;
-    console.log('click');
+    this.currentUser = this.userService.currentUser
+    this.orderSource.data = this.orderService.getAllOrders()
+    console.log(this.orderSource.data)
+    
+    this.newName = this.currentUser.fullName
+    this.newEmail = this.currentUser.email
+    this.newAddress = this.currentUser.address
+    this.newPhone = this.currentUser.phone
   }
 
-  finishEditing(){
-    this.data.user.email = this.profileForInput.email;
-    this.data.user.password= this.profileForInput.password;
-    this.data.user.address = this.profileForInput.address;
-    console.log(this.data.user);
-    //console.log(UserService.dummyUserList);
-    this.isEditing = false;
+  onSubmit(f : NgForm){
+    this.isEditing = !this.isEditing
+    console.log(this.isEditing, f.disabled)
+    if(this.userService.checkGuest()) {
+      throw new Error('No current user')
+    }
+   if(!this.isEditing) {
+    this.currentUser.fullName = this.newName
+    this.currentUser.address = this.newAddress
+    this.currentUser.email = this.newEmail
+    this.currentUser.phone = this.newPhone
+   }
   }
 }

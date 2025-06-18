@@ -44,8 +44,6 @@ export class CatalogueComponent implements OnInit{
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-
-
   ngOnInit(): void{
     this.productSource.data = this.productService.getProducts()
     this.maxPrice = this.productService.getMaxPrice()

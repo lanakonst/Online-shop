@@ -16,6 +16,17 @@ export class UserService{
         
             preferences: [],
             orders: [],
+        },
+        {  id: 1,
+            fullName: 'a',
+            email: 'a',
+            phone: 'a',
+            address: 'a',
+            login: 'a',
+            password: 'aaaaaaaa',
+        
+            preferences: [],
+            orders: [],
         }
     ];
 

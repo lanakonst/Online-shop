@@ -3,12 +3,14 @@ import { Order } from "../models/order.model";
 import { UserService } from "./user.service";
 import { Injectable } from "@angular/core";
 import { Cart } from "../models/cart.model";
+import { ProductService } from "./product.service";
 
 @Injectable()
 export class OrderService {
    private ordersMap : Map<number, Order> = new Map()
+   currentOrder! : Order
 
-    constructor(private userService: UserService) {
+    constructor(private userService: UserService, private productService : ProductService) {
         this.userService.currentUser.orders.forEach((order) => {
             this.ordersMap.set(order.id, order)
         })
@@ -20,6 +22,10 @@ export class OrderService {
             throw new Error(`Order ${id} not found`)
         }
         return currOrder
+    }
+
+    setCurrentOrder(order : Order) {
+        this.currentOrder = order
     }
 
     orderFromCart(cart : Cart) : Order {
@@ -52,6 +58,12 @@ export class OrderService {
         currOrder.status = newStatus
     }
 
+    checkAllOrders() {
+         this.ordersMap.forEach((item) => {
+            if (item.deliveryDate <= new Date()) item.status = 'completed'
+        })
+    }
+
     addRating(id:number, rating : number) {
         const currOrder = this.getOrderById(id)
         if (currOrder.status != 'completed') {
@@ -73,8 +85,14 @@ export class OrderService {
         const userOrders = this.userService.currentUser.orders
         const indexToDelete = userOrders.findIndex(order => order.id === id)
         if (indexToDelete != -1) {
+            userOrders[indexToDelete].products.map((item) => item.product.quantity += item.amount)
             userOrders.splice(indexToDelete, 1)
         }
+    }
+
+    cancelOrder(order : Order) {
+        order.products.map((item) => item.product.quantity += item.amount)
+        order.status = 'canceled'
     }
 }
 

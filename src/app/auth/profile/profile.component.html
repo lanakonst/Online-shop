@@ -1,88 +1,42 @@
+<mat-tab-group>
+    <mat-tab label="Orders">
+        <app-order-history></app-order-history>
+    </mat-tab>
 
-<div fxLayoutAlign="space-between">
-    <button mat-button [mat-dialog-close]="true">
-        <mat-icon matListIcon>close</mat-icon>
-    </button>
 
-    <button mat-icon-button (click)="enableEdit()">
-        <mat-icon matListIcon *ngIf="this.profileForInput?.id == this.userService.currentUser?.id" 
-        (click)="this.isEditing = !this.isEditing">edit</mat-icon>
-
-    </button>
-</div>
-
-<mat-dialog-content>
-    <form fxLayout="column" fxLayoutGap="1rem" #editForm="ngForm" (ngSubmit)="finishEditing()">
-        <!--Email-->
-        <mat-card>
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
-                <mat-icon>mail</mat-icon>
-                <div fxLayout="column" *ngIf="!this.isEditing">
-                    <span>{{this.profileForInput.email}}</span>
-                </div>
-
-                <mat-form-field *ngIf="this.isEditing">
-                <input matInput
-                type="email"
-                placeholder="Your email"
-                ngModel
-                name="email"
-                [(ngModel)]="this.profileForInput.email"
-                email
-                required
-                #emailInput="ngModel">
-
-                <mat-error *ngIf="emailInput.hasError('required')">Email is required</mat-error>
-                <mat-error *ngIf="!emailInput.hasError('required')">Email has incorrect format</mat-error>
+    <mat-tab label="Profile information"> 
+        <section>
+            <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1rem" #f="ngForm" (ngSubmit)="onSubmit(f)">
+                <mat-form-field>
+                    <input [disabled]="!isEditing" type="text" matInput placeholder="Your full name" [(ngModel)]="newName" name="fullName" required #fullNameInput="ngModel">
+                    <mat-hint>Full name</mat-hint>
+                    <mat-error *ngIf="fullNameInput.hasError('required')">Field shouldn't be empty</mat-error>
                 </mat-form-field>
-            </div>
-        </mat-card>
-
-        <!--password-->
-        <mat-card *ngIf="this.isEditing">
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
-                <mat-icon>security</mat-icon>
+        
+                <mat-form-field>
+                    <input [disabled]="!isEditing" type="email" matInput placeholder="Your email" [(ngModel)]="newEmail" name="email" required #emailInput="ngModel">
+                    <mat-hint>Email</mat-hint>
+                    <mat-error *ngIf="emailInput.hasError('required')">Field shouldn't be empty</mat-error>
+                    <mat-error *ngIf="!emailInput.hasError('required')">Use correct email format</mat-error>
+                </mat-form-field>
+        
+                <mat-form-field>
+                    <input [disabled]="!isEditing" type="tel" matInput placeholder="Your phone number" [(ngModel)]="newPhone" name="phone" required #phoneInput="ngModel">
+                    <mat-hint>Phone</mat-hint>
+                    <mat-error *ngIf="phoneInput.hasError('required')">Field shouldn't be empty</mat-error>
+                    <mat-error *ngIf="!phoneInput.hasError('required')">Use correct phone number format</mat-error>
+                </mat-form-field>
+        
+                <mat-form-field>
+                    <input [disabled]="!isEditing" type="text" matInput placeholder="Your address" [(ngModel)]="newAddress" name="address" required #addressInput="ngModel">
+                    <mat-hint>Address</mat-hint>
+                    <mat-error *ngIf="addressInput.hasError('required')">Field shouldn't be empty</mat-error>
+                </mat-form-field>
                 
+                <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">{{isEditing ? 'Save' : 'Edit'}}</button>
+            </form>
+        </section>    
+    </mat-tab>
+</mat-tab-group>
 
-                <mat-form-field hintLabel="Minimum 8 characters">
-                <input matInput
-                type="password"
-                placeholder="Your password"
-                ngModel
-                name="password"
-                [(ngModel)]="this.profileForInput.password"
-                password
-                required 
-                #passwordInput="ngModel">
-
-                <mat-hint align="end">{{passwordInput.value?.length}} / 8</mat-hint>
-                </mat-form-field>
-            </div>
-        </mat-card>
-
-        <!--Address-->
-        <mat-card>
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
-                <mat-icon>pin_drop</mat-icon>
-                <div fxLayout="column" *ngIf="!this.isEditing">
-                    <span>{{this.profileForInput.address}}</span>
-                </div>
-
-                <mat-form-field *ngIf="this.isEditing">
-                <input matInput
-                type="text"
-                placeholder="Your address"
-                ngModel name="address"
-                [(ngModel)]="this.profileForInput.address"
-                required
-                #addressInput="ngModel">
-
-                <mat-error *ngIf="addressInput.hasError('required')">Please write your address</mat-error>
-                </mat-form-field>
-            </div>
-        </mat-card>
-
-        <button *ngIf="this.isEditing" mat-raised-button type="submit" color="primary">Save user</button>
-
-    </form>
-</mat-dialog-content>
+<button mat-raised-button (click)="userService.toGuestUser()" routerLink="">Logout</button>

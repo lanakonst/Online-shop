@@ -1,0 +1,12 @@
+.mat-table {
+    width: 100%;
+    table-layout: auto;
+}
+
+mat-tab {
+    width: 100%;
+}
+mat-cell {
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
