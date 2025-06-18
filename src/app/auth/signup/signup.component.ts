@@ -19,11 +19,8 @@ export class SignupComponent {
     console.log('signup comp ' + this.userService.getUserByEmail(form.value.email))
     if(!this.userService.getUserByEmail(form.value.email)) {
       this.errorExists = false;
-      console.log(form.value.password)
       var newUser = this.userService.registerUser(form.value.fullName, form.value.email, form.value.phone,
         form.value.address, form.value.login, form.value.password)
-      console.log('registered')
-      console.log(newUser)
       this.router.navigate(['']);
     } else {
       this.errorExists = true;

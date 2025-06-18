@@ -40,7 +40,7 @@ export class ProdPageComponent implements OnInit {
       if (itemId === -1) {
         currentUser.cart.products.push({product: this.currentProduct, amount: this.amount})
       } else if (this.amount + currentUser.cart.products[itemId].amount > this.currentProduct.quantity) {
-        this._snackBar.open('Not enough items', 'Close', { duration: 3000 }); //CHANGEEEEE
+        this._snackBar.open('Not enough items', 'Close', { duration: 3000 });
         return
       } else {
         currentUser.cart.products[itemId].amount += this.amount
@@ -48,6 +48,5 @@ export class ProdPageComponent implements OnInit {
       currentUser.cart.totalPrice += this.currentProduct.price * this.amount
       this._snackBar.open('Item added!', 'Close', { duration: 3000 });
     }
-    console.log('REFERENCE CHEEEEEEEECK', this.currentProduct === this.productService.getProductById(this.currentProduct.id))
   }
 }
