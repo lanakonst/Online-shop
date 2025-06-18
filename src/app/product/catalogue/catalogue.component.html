@@ -80,7 +80,7 @@
 
     <ng-container matColumnDef="delivery">
         <mat-header-cell *matHeaderCellDef mat-sort-header="">Delivery time</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.delivery | number}} days</mat-cell>
+        <mat-cell *matCellDef="let element">{{element.deliveryTime | number}} days</mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
